@@ -1,5 +1,6 @@
 package com.mongodb.workshop.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import com.mongodb.workshop.service.exception.ObjectNotFoundException;
 public class PostService {
 
 	@Autowired
-	private PostRepository userRepository;
-	
-	
+	private PostRepository postRepository;
 	
 	public Post findById(String id) {
-		Optional<Post> objeto = userRepository.findById(id);
+		Optional<Post> objeto = postRepository.findById(id);
 		return objeto.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+	
+	public List<Post> findByTitle(String text) {
+		return postRepository.findByTitleContainingIgnoreCase(text);
 	}
 }
